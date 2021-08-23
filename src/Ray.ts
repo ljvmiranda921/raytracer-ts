@@ -1,11 +1,12 @@
-import Vec3 from './Vec3'
 import Color from './Color'
+import Point from './Point'
+import Vec3 from './Vec3'
 
 export default class Ray {
-  orig: Vec3
+  orig: Point
   dir: Vec3
 
-  constructor(origin: Vec3, direction: Vec3) {
+  constructor(origin: Point, direction: Vec3) {
     this.orig = origin
     this.dir = direction
   }
