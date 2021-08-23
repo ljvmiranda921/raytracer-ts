@@ -29,8 +29,8 @@ for (let j = imageHeight - 1; j >= 0; j--) {
   process.stderr.write(`Scanlines remaining: ${j}`)
 
   for (let i = 0; i < imageWidth; i++) {
-    let u = i / imageWidth - 1
-    let v = j / imageHeight - 1
+    let u = i / (imageWidth - 1)
+    let v = j / (imageHeight - 1)
     let r = new Ray(
       origin,
       lowerLeftCorner
