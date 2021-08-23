@@ -39,7 +39,7 @@ for (let j = imageHeight - 1; j >= 0; j--) {
         .subtract(origin)
     )
 
-    let pixelColor = new Color(r.color().x, r.color().y, r.color().z)
+    let pixelColor = r.color()
     pixelColor.write()
   }
 }

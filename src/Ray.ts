@@ -18,8 +18,9 @@ export default class Ray {
   color() {
     let unitDirection = this.dir.unit()
     let t = 0.5 * (unitDirection.y + 1.0)
-    return new Color(1.0, 1.0, 1.0)
+    let c = new Color(1.0, 1.0, 1.0)
       .scale(1.0 - t)
       .add(new Color(0.5, 0.7, 1.0).scale(t))
+    return new Color(c.x, c.y, c.z)
   }
 }
