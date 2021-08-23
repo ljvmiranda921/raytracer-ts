@@ -1,3 +1,5 @@
+import Color from './Color'
+
 const imageWidth = 256
 const imageHeight = 256
 
@@ -9,15 +11,8 @@ for (let j = imageHeight - 1; j >= 0; j--) {
   process.stderr.write(`Scanlines remaining: ${j}`)
 
   for (let i = 0; i < imageWidth; i++) {
-    const r = i / (imageWidth - 1)
-    const g = j / (imageHeight - 1)
-    const b = 0.25
-
-    const ir = Math.round(255.999 * r)
-    const ig = Math.round(255.999 * g)
-    const ib = Math.round(255.999 * b)
-
-    console.log(`${ir} ${ig} ${ib}`)
+    let color = new Color(i / (imageWidth - 1), j / (imageHeight - 1), 0.25)
+    color.write()
   }
 }
 
