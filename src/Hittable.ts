@@ -7,5 +7,10 @@ export function hitSphere(center: Point, radius: number, r: Ray) {
   let b = 2.0 * oc.dot(r.dir)
   let c = oc.dot(oc) - Math.pow(radius, 2)
   let discriminant = Math.pow(b, 2) - 4 * a * c
-  return discriminant > 0
+  if (discriminant < 0) {
+    var hitPoint = -1.0
+  } else {
+    var hitPoint = (-b - Math.sqrt(discriminant)) / (2.0 * a)
+  }
+  return hitPoint
 }
