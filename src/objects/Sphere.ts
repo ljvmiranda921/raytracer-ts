@@ -13,35 +13,36 @@ export default class Sphere extends Hittable {
     this.radius = radius
   }
 
-  hit(r: Ray, t_min: number, t_max: number, rec: HitRecord) {
+  hit(r: Ray, tMin: number, tMax: number): HitRecord | null {
     const oc = r.orig.subtract(this.center)
     const a = r.dir.lengthSquared()
     const halfB = oc.dot(r.dir)
     const c = oc.lengthSquared() - Math.pow(this.radius, 2)
-
     const discriminant = Math.pow(halfB, 2) - a * c
     const sqrtD = Math.sqrt(discriminant)
 
-    if (discriminant < 0) {
-      // Ray didn't touch the sphere
-      var hitValue = false
-    } else {
-      var root = (-halfB - sqrtD) / a
-      if (root < t_min || t_max < root) {
-        root = (-halfB + sqrtD) / a
-        if (root < t_min || t_max < root) {
-          // Roots aren't within acceptable range
-          var hitValue = false
-        }
-      }
-      // Ray hits the sphere
-      rec.t = root
-      rec.p = r.at(rec.t)
-      const outwardNormal = rec.p.subtract(this.center).scale(1 / this.radius)
-      rec.setFaceNormal(r, outwardNormal)
-      hitValue = true
-    }
+    if (discriminant > 0 && a > 0) {
+      let root = (-halfB - sqrtD) / a
 
-    return hitValue
+      if (root > tMin && root < tMax) {
+        const point = r.at(root)
+        return new HitRecord(
+          r,
+          root,
+          point.subtract(this.center).scale(1 / this.radius)
+        )
+      }
+
+      root = (-halfB + sqrtD) / a
+      if (root > tMin && root < tMax) {
+        const point = r.at(root)
+        return new HitRecord(
+          r,
+          root,
+          point.subtract(this.center).scale(1 / this.radius)
+        )
+      }
+    }
+    return null
   }
 }

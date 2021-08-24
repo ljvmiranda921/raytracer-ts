@@ -8,7 +8,9 @@ export default class HitRecord {
   t: number
   frontFace: boolean
 
-  setFaceNormal(r: Ray, outwardNormal: Vec3) {
+  constructor(r: Ray, t: number, outwardNormal: Vec3) {
+    this.p = r.at(t)
+    this.t = t
     this.frontFace = r.dir.dot(outwardNormal) < 0
     this.normal = this.frontFace ? outwardNormal : outwardNormal.negate()
   }

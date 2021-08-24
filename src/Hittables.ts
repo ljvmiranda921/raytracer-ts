@@ -15,21 +15,15 @@ export default class Hittables extends Hittable {
 
   /**
    * Return a hit for the closest item in this list of objects
-   * @see https://raytracing.github.io/books/RayTracingInOneWeekend.html#surfacenormalsandmultipleobjects/alistofhittableobjects
    */
-  hit(r: Ray, t_min: number, t_max: number, rec: HitRecord) {
-    let tempRec: HitRecord
-    var hitAnything = false
-    var closestSoFar = t_max
-
+  hit(r: Ray, tMin: number, tMax: number): HitRecord | null {
+    let closestSoFar: HitRecord | null = null
     for (const obj of this.objects) {
-      const objectHit = obj.hit(r, t_min, closestSoFar, tempRec)
+      const objectHit = obj.hit(r, tMin, closestSoFar?.t ?? tMax)
       if (objectHit) {
-        hitAnything = true
-        closestSoFar = tempRec.t
-        rec = tempRec
+        closestSoFar = objectHit
       }
     }
-    return hitAnything
+    return closestSoFar
   }
 }
