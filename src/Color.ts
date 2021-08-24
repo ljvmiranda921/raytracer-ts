@@ -7,4 +7,8 @@ export default class Color extends Vec3 {
     const ib = Math.round(255.999 * this.z)
     console.log(`${ir} ${ig} ${ib}`)
   }
+
+  static fromVec3(vec: Vec3): Color {
+    return new Color(vec.x, vec.y, vec.z)
+  }
 }

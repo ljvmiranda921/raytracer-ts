@@ -1,13 +1,20 @@
-import Color from './Color'
 import Vec3 from './Vec3'
 import Ray from './Ray'
+import Point from './Point'
+import Hittables from './Hittables'
+import Sphere from './objects/Sphere'
 
-// Image settings
+// Image
 const aspectRatio = 16.0 / 9.0
 const imageWidth = 400
 const imageHeight = imageWidth / aspectRatio
 
-// Camera settings
+// World
+const world = new Hittables()
+world.add(new Sphere(new Point(0, 0, -1), 0.5))
+world.add(new Sphere(new Point(0, -100.5, -1), 100))
+
+// Camera
 const viewportHeight = 2.0
 const viewportWidth = aspectRatio * viewportHeight
 const focalLength = 1.0
@@ -39,7 +46,7 @@ for (let j = imageHeight - 1; j >= 0; j--) {
         .subtract(origin)
     )
 
-    let pixelColor = r.color()
+    let pixelColor = r.color(world)
     pixelColor.write()
   }
 }
