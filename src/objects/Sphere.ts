@@ -37,7 +37,8 @@ export default class Sphere extends Hittable {
       // Ray hits the sphere
       rec.t = root
       rec.p = r.at(rec.t)
-      rec.normal = rec.p.subtract(this.center).scale(1 / this.radius)
+      const outwardNormal = rec.p.subtract(this.center).scale(1 / this.radius)
+      rec.setFaceNormal(r, outwardNormal)
       hitValue = true
     }
 
