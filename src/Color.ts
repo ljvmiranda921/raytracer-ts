@@ -1,20 +1,20 @@
 import Vec3 from './Vec3'
 
 export default class Color extends Vec3 {
-    write(samplesPerPixel: number) {
-        let r = this.x
-        let g = this.y
-        let b = this.z
-
-        const scale = 1.0 / samplesPerPixel
-        r *= scale
-        g *= scale
-        b *= scale
-
-        const ir = Math.floor(256 * clamp(r, 0.0, 0.999))
-        const ig = Math.floor(256 * clamp(g, 0.0, 0.999))
-        const ib = Math.floor(256 * clamp(b, 0.0, 0.999))
+    write(): void {
+        const ir = Math.floor(256 * clamp(this.x, 0.0, 0.999))
+        const ig = Math.floor(256 * clamp(this.y, 0.0, 0.999))
+        const ib = Math.floor(256 * clamp(this.z, 0.0, 0.999))
         console.log(`${ir} ${ig} ${ib}`)
+    }
+
+    static average(colors: Color[]): Color {
+        const sum = colors.reduce(function (acc, color) {
+            return acc.add(color) as Color
+        }, new Color(0, 0, 0))
+
+        const average = sum.scale(1 / colors.length)
+        return Color.fromVec3(average)
     }
 
     static fromVec3(vec: Vec3): Color {
