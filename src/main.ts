@@ -11,7 +11,7 @@ const aspectRatio: number = 16.0 / 9.0
 const imageWidth: number = 400
 const imageHeight: number = imageWidth / aspectRatio
 const samplesPerPixel: number = 100
-const depth: number = 50
+const maxDepth: number = 50
 
 // World
 const world = new Hittables()
@@ -49,7 +49,7 @@ for (let j = imageHeight - 1; j >= 0; j--) {
             const v = (j + random(-1, 1)) / (imageHeight - 1)
 
             const r = camera.getRay(u, v)
-            const sampledColor = r.color(world, depth)
+            const sampledColor = r.color(world, maxDepth)
             colorSamples.push(sampledColor)
         }
 
