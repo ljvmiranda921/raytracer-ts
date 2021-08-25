@@ -1,7 +1,7 @@
-import Vec3 from './Vec3'
-import Ray from './Ray'
-import Point from './Point'
 import Hittables from './Hittables'
+import Point from './Point'
+import Ray from './Ray'
+import Vec3 from './Vec3'
 import Sphere from './objects/Sphere'
 
 // Image
@@ -23,32 +23,32 @@ const origin = new Vec3(0, 0, 0)
 const horizontal = new Vec3(viewportWidth, 0, 0)
 const vertical = new Vec3(0, viewportHeight, 0)
 const lowerLeftCorner = origin
-  .subtract(horizontal.scale(0.5))
-  .subtract(vertical.scale(0.5))
-  .subtract(new Vec3(0, 0, focalLength))
+    .subtract(horizontal.scale(0.5))
+    .subtract(vertical.scale(0.5))
+    .subtract(new Vec3(0, 0, focalLength))
 
 // Render
 console.log(`P3\n${imageWidth} ${imageHeight}\n255`)
 
 for (let j = imageHeight - 1; j >= 0; j--) {
-  process.stderr.clearLine(0)
-  process.stderr.cursorTo(0)
-  process.stderr.write(`Scanlines remaining: ${j}`)
+    process.stderr.clearLine(0)
+    process.stderr.cursorTo(0)
+    process.stderr.write(`Scanlines remaining: ${j}`)
 
-  for (let i = 0; i < imageWidth; i++) {
-    let u = i / (imageWidth - 1)
-    let v = j / (imageHeight - 1)
-    let r = new Ray(
-      origin,
-      lowerLeftCorner
-        .add(horizontal.scale(u))
-        .add(vertical.scale(v))
-        .subtract(origin)
-    )
+    for (let i = 0; i < imageWidth; i++) {
+        let u = i / (imageWidth - 1)
+        let v = j / (imageHeight - 1)
+        let r = new Ray(
+            origin,
+            lowerLeftCorner
+                .add(horizontal.scale(u))
+                .add(vertical.scale(v))
+                .subtract(origin)
+        )
 
-    let pixelColor = r.color(world)
-    pixelColor.write()
-  }
+        let pixelColor = r.color(world)
+        pixelColor.write()
+    }
 }
 
 process.stderr.write(`\nDone.`)
