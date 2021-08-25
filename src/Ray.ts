@@ -24,7 +24,8 @@ export default class Ray {
         }
 
         // Get the first hit on any object in the world
-        const hit = world.hit(this, 0, Infinity)
+        // The value of t is set to 0.001 to fix "shadow acne"
+        const hit = world.hit(this, 0.001, Infinity)
 
         if (hit) {
             const scattered = hit.material.scatter(this, hit)
