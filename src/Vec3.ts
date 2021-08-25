@@ -1,3 +1,5 @@
+import random from './random'
+
 export default class Vec3 {
     x: number
     y: number
@@ -7,6 +9,17 @@ export default class Vec3 {
         this.x = x
         this.y = y
         this.z = z
+    }
+
+    static random(min?: number, max?: number): Vec3 {
+        return new Vec3(random(min, max), random(min, max), random(min, max))
+    }
+
+    static randomUnitVector(): Vec3 {
+        const a = random(0, 2 * Math.PI)
+        const z = random(-1, 1)
+        const r = Math.sqrt(1 - z * z)
+        return new Vec3(r * Math.cos(a), r * Math.sin(a), z)
     }
 
     negate() {

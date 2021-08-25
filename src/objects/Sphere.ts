@@ -2,15 +2,18 @@ import HitRecord from '../HitRecord'
 import Hittable from '../Hittable'
 import type Point from '../Point'
 import type Ray from '../Ray'
+import type Material from '../Material'
 
 export default class Sphere extends Hittable {
     center: Point
     radius: number
+    material: Material
 
-    constructor(center: Point, radius: number) {
+    constructor(center: Point, radius: number, material: Material) {
         super()
         this.center = center
         this.radius = radius
+        this.material = material
     }
 
     hit(r: Ray, tMin: number, tMax: number): HitRecord | null {
@@ -29,7 +32,8 @@ export default class Sphere extends Hittable {
                 return new HitRecord(
                     r,
                     root,
-                    point.subtract(this.center).scale(1 / this.radius)
+                    point.subtract(this.center).scale(1 / this.radius),
+                    this.material
                 )
             }
 
@@ -39,7 +43,8 @@ export default class Sphere extends Hittable {
                 return new HitRecord(
                     r,
                     root,
-                    point.subtract(this.center).scale(1 / this.radius)
+                    point.subtract(this.center).scale(1 / this.radius),
+                    this.material
                 )
             }
         }
