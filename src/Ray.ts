@@ -17,11 +17,24 @@ export default class Ray {
     }
 
     /* Return the color of the background (a simple gradient) */
-    color(world: Hittable): Color {
+    color(world: Hittable, depth: number): Color {
+        // If we've exceeded the ray bounce limit, no more light is gathered
+        if (depth <= 0) {
+            return new Color(0, 0, 0)
+        }
+
+        // Get the first hit on any object in the world
         const hit = world.hit(this, 0, Infinity)
+
         if (hit) {
-            const c = hit.normal.add(new Color(1, 1, 1)).scale(0.5)
-            return Color.fromVec3(c)
+            const scattered = hit.material.scatter(this, hit)
+
+            if (scattered) {
+                const c = scattered.ray
+                    .color(world, depth - 1)
+                    .mul(scattered.attenuation)
+                return Color.fromVec3(c)
+            }
         }
 
         const unitDirection = this.dir.unit()
