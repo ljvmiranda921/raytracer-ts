@@ -2,9 +2,9 @@ import Vec3 from './Vec3'
 
 export default class Color extends Vec3 {
     write(): void {
-        const ir = Math.floor(256 * clamp(this.x, 0.0, 0.999))
-        const ig = Math.floor(256 * clamp(this.y, 0.0, 0.999))
-        const ib = Math.floor(256 * clamp(this.z, 0.0, 0.999))
+        const ir = Math.floor(256 * clamp(Math.sqrt(this.x), 0.0, 0.999))
+        const ig = Math.floor(256 * clamp(Math.sqrt(this.y), 0.0, 0.999))
+        const ib = Math.floor(256 * clamp(Math.sqrt(this.z), 0.0, 0.999))
         console.log(`${ir} ${ig} ${ib}`)
     }
 
