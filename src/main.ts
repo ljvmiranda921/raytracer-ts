@@ -2,7 +2,7 @@ import Camera from './Camera'
 import Color from './Color'
 import Hittables from './Hittables'
 import Point from './Point'
-import { LambertianMatte, Metal } from './materials'
+import { LambertianMatte, Metal, Dielectric } from './materials'
 import Sphere from './objects/Sphere'
 import random from './random'
 
@@ -18,13 +18,14 @@ const maxDepth: number = 50
 const world = new Hittables()
 
 const materialGround = new LambertianMatte(new Color(0.8, 0.8, 0.0))
-const materialCenter = new LambertianMatte(new Color(0.7, 0.3, 0.3))
-const materialLeft = new Metal(new Color(0.8, 0.8, 0.8), 0.3)
-const materialRight = new Metal(new Color(0.8, 0.6, 0.2), 1.0)
+const materialCenter = new LambertianMatte(new Color(0.1, 0.2, 0.5))
+const materialLeft = new Dielectric(1.5)
+const materialRight = new Metal(new Color(0.8, 0.6, 0.2), 0.0)
 
 world.add(new Sphere(new Point(0, -100.5, -1), 100, materialGround))
 world.add(new Sphere(new Point(0, 0, -1), 0.5, materialCenter))
 world.add(new Sphere(new Point(-1, 0, -1), 0.5, materialLeft))
+world.add(new Sphere(new Point(-1, 0, -1), -0.4, materialLeft))
 world.add(new Sphere(new Point(1, 0, -1), 0.5, materialRight))
 
 // Camera
