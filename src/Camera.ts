@@ -7,27 +7,57 @@ export default class Camera {
     horizontal: Vec3
     vertical: Vec3
     lowerLeftCorner: Vec3
+    lensRadius: number
+
+    w: Vec3
+    u: Vec3
+    v: Vec3
 
     constructor(
-        aspectRatio: number = 16.0 / 9.0,
-        viewportHeight: number = 2.0,
-        focalLength: number = 1.0
+        lookFrom: Point,
+        lookAt: Point,
+        vup: Vec3,
+        vfov: number,
+        aspectRatio: number,
+        aperture: number,
+        focusDistance: number
     ) {
-        let viewportWidth: number = aspectRatio * viewportHeight
-        this.origin = new Point(0, 0, 0)
-        this.horizontal = new Vec3(viewportWidth, 0.0, 0.0)
-        this.vertical = new Vec3(0.0, viewportHeight, 0.0)
+        const theta = toRadians(vfov)
+        const h = Math.tan(theta / 2)
+
+        const viewportHeight = 2 * h
+        const viewportWidth = aspectRatio * viewportHeight
+        const lookDirection = lookFrom.subtract(lookAt)
+
+        this.w = lookDirection.unit()
+        this.u = vup.cross(this.w).unit()
+        this.v = this.w.cross(this.u)
+
+        this.origin = lookFrom
+        this.horizontal = this.u.scale(viewportWidth).scale(focusDistance)
+        this.vertical = this.v.scale(viewportHeight).scale(focusDistance)
+
         this.lowerLeftCorner = this.origin
             .subtract(this.horizontal.scale(0.5))
             .subtract(this.vertical.scale(0.5))
-            .subtract(new Vec3(0, 0, focalLength))
+            .subtract(this.w.scale(focusDistance))
+
+        this.lensRadius = aperture / 2
     }
 
-    getRay(u: number, v: number): Ray {
+    getRay(s: number, t: number): Ray {
+        const rD = Point.randomInUnitDisk().scale(this.lensRadius)
+        const offset = this.u.scale(rD.x).add(this.v.scale(rD.y))
         let direction = this.lowerLeftCorner
-            .add(this.horizontal.scale(u))
-            .add(this.vertical.scale(v))
+            .add(this.horizontal.scale(s))
+            .add(this.vertical.scale(t))
             .subtract(this.origin)
-        return new Ray(this.origin, direction)
+            .subtract(offset)
+
+        return new Ray(this.origin.add(offset), direction)
     }
+}
+
+function toRadians(degrees: number) {
+    return degrees * (Math.PI / 180)
 }
