@@ -84,4 +84,22 @@ export default class Vec3 {
     reflect(normal: Vec3) {
         return this.subtract(normal.scale(this.dot(normal)).scale(2))
     }
+
+    /*
+     * Refract a vector according to Snell's law
+     */
+    refract(normal: Vec3, etaRatio: number) {
+        const unitVector = this.unit()
+        const cosineTheta = unitVector.negate().dot(normal)
+
+        const parallel = normal
+            .scale(cosineTheta)
+            .add(unitVector)
+            .scale(etaRatio)
+        const perpendicular = normal.scale(
+            -Math.sqrt(1 - parallel.lengthSquared())
+        )
+
+        return parallel.add(perpendicular)
+    }
 }
