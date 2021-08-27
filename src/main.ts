@@ -4,14 +4,15 @@ import Hittables from './Hittables'
 import Point from './Point'
 import { LambertianMatte, Metal, Dielectric } from './materials'
 import Sphere from './objects/Sphere'
+import Vec3 from './Vec3'
 import random from './random'
 
 // Image
-const aspectRatio: number = 16.0 / 9.0
-const imageWidth: number = 400
-const imageHeight: number = imageWidth / aspectRatio
-const samplesPerPixel: number = 100
-const maxDepth: number = 50
+const aspectRatio = 16.0 / 9.0
+const imageWidth = 400
+const imageHeight = imageWidth / aspectRatio
+const samplesPerPixel = 100
+const maxDepth = 50
 
 // World
 
@@ -29,7 +30,20 @@ world.add(new Sphere(new Point(-1, 0, -1), -0.4, materialLeft))
 world.add(new Sphere(new Point(1, 0, -1), 0.5, materialRight))
 
 // Camera
-const camera = new Camera()
+const lookFrom = new Point(-2, 2, 2)
+const lookAt = new Point(0, 0, -1)
+const vup = new Vec3(0, 1, 0)
+const distToFocus = lookFrom.subtract(lookAt).length()
+const aperture = 1.0
+const camera = new Camera(
+    lookFrom,
+    lookAt,
+    vup,
+    90,
+    aspectRatio,
+    aperture,
+    distToFocus
+)
 
 // Render
 console.log(`P3\n${imageWidth} ${imageHeight}\n255`)
