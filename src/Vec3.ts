@@ -77,4 +77,11 @@ export default class Vec3 {
     unit() {
         return this.scale(1 / this.length())
     }
+
+    /**
+     * Reflect a vector in relation to a normal
+     */
+    reflect(normal: Vec3) {
+        return this.subtract(normal.scale(this.dot(normal)).scale(2))
+    }
 }
