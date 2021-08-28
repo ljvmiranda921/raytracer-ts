@@ -1,9 +1,9 @@
-import Color from './Color'
-import Hittables from './Hittables'
-import Point from './Point'
-import random from './random'
-import { Dielectric, LambertianMatte, Metal } from './materials'
-import { Sphere } from './objects'
+import Color from '../Color'
+import Hittables from '../Hittables'
+import Point from '../Point'
+import random from '../random'
+import { Dielectric, LambertianMatte, Metal } from '../materials'
+import { Sphere } from '../objects'
 
 export default function randomScene(): Hittables {
     const world = new Hittables()

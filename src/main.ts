@@ -3,7 +3,7 @@ import Color from './Color'
 import Hittables from './Hittables'
 import Point from './Point'
 import Vec3 from './Vec3'
-import randomScene from './randomScene'
+import randomScene from './scenes/randomScene'
 import random from './random'
 
 // Image
